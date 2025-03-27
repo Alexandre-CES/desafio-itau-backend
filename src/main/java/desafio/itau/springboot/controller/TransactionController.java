@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import desafio.itau.springboot.service.TransactionService;
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 //request
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,24 +33,8 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
     
-    /*
-        * POST /transacao 
-        body = {
-            "valor": 123.45,
-            "dataHora": "2020-08-07T12:34:56.789-03:00"
-        }
-
-        returns =
-        201 Created sem nenhum corpo
-        A transação foi aceita (ou seja foi validada, está válida e foi registrada)
-        422 Unprocessable Entity sem nenhum corpo
-        A transação não foi aceita por qualquer motivo (1 ou mais dos critérios de aceite não foram atendidos - por exemplo: uma transação com valor menor que 0)
-        400 Bad Request sem nenhum corpo
-        A API não compreendeu a requisição do cliente (por exemplo: um JSON inválido)
-            
-    */
     @PostMapping
-    public ResponseEntity<Object> transaction(@Valid @RequestBody PostTransactionBody body){
+    public ResponseEntity<Object> postTransaction(@Valid @RequestBody PostTransactionBody body){
         
         ArrayList<String> errors = new ArrayList<String>();
 
@@ -77,5 +62,10 @@ public class TransactionController {
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
+    }
+
+    @DeleteMapping
+    public void deleteTransaction(){
+        this.transactionService.deleteAllTransactions();
     }
 }
