@@ -2,11 +2,12 @@ package desafio.itau.springboot.service;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import desafio.itau.springboot.dto.SummaryStatisticsReturn;
+import desafio.itau.springboot.model.SummaryStatistics;
 import desafio.itau.springboot.model.Transaction;
 
 @Service
@@ -23,12 +24,12 @@ public class TransactionService {
         transactions.clear();
     }
 
-    public DoubleSummaryStatistics getStatistics(){
+    public SummaryStatisticsReturn getStatistics(){
 
         ArrayList<Transaction> newTransactions = new ArrayList<Transaction>();
 
         //get transactions in the last 60 seconds
-        OffsetDateTime timeLimit = OffsetDateTime.now().minusSeconds(30);
+        OffsetDateTime timeLimit = OffsetDateTime.now().minusSeconds(60);
         if(!this.transactions.isEmpty()){
             for(Transaction transaction : this.transactions){
                 if(transaction.getDataHora().isAfter(timeLimit)){
@@ -37,15 +38,8 @@ public class TransactionService {
             }
         }
         
-        if(newTransactions.isEmpty()){
-            DoubleSummaryStatistics stats = new DoubleSummaryStatistics();
-            stats.accept(0.0);
-            return stats;
-        }else{
-            return newTransactions
-                .stream()
-                .collect(Collectors.summarizingDouble(Transaction::getValor));
-        }
+        SummaryStatistics summaryStatistics = new SummaryStatistics(newTransactions);
+        return summaryStatistics.getStatistics();
     }
 
 }
