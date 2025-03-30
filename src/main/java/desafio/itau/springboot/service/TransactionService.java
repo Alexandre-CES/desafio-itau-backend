@@ -2,7 +2,6 @@ package desafio.itau.springboot.service;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ public class TransactionService {
     }
 
     public SummaryStatisticsReturn getStatistics(){
-
+        
         ArrayList<Transaction> newTransactions = new ArrayList<Transaction>();
 
         //get transactions in the last 60 seconds

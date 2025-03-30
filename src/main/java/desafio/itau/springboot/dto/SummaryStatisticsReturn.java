@@ -1,7 +1,9 @@
 package desafio.itau.springboot.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 
+@Getter
 public class SummaryStatisticsReturn {
 
     @NotNull
@@ -28,5 +30,4 @@ public class SummaryStatisticsReturn {
         this.min = min;
         this.max = max; 
     }
-
 }
