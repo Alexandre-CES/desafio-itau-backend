@@ -48,6 +48,10 @@ public class TransactionController {
             errors.add("Invalid date: "+ body.getDataHora());
         }
 
+        if(body.getValor() == null || body.getDataHora() == null){
+            errors.add("insufficient values");
+        }
+
         //if any error, return unprocessable entity and errors
         if(errors.size() > 0){
             return ResponseEntity.unprocessableEntity().body(errors);
